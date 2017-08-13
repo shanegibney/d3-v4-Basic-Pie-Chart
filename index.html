@@ -7,142 +7,116 @@
   <!-- load the d3.js library -->
   <script src="https://d3js.org/d3.v4.min.js"></script>
   <script>
-    // set the dimensions and margins of the chart
-    var pie_width = 360;
-    var pie_height = 360;
-    var radius = Math.min(pie_width, pie_height) / 2;
+    var data = [{
+        "name": "RT",
+        "category": "M50"
+      },
+      {
+        "name": "K M",
+        "category": "M40"
+      },
+      {
+        "name": "SD",
+        "category": "M60"
+      },
+      {
+        "name": "DK",
+        "category": "M50"
+      },
+      {
+        "name": "BD",
+        "category": "M40"
+      },
+      {
+        "name": "KC",
+        "category": "M40"
+      },
+      {
+        "name": "PM",
+        "category": "M40"
+      },
+      {
+        "name": "NR",
+        "category": "M50"
+      },
+      {
+        "name": "LM",
+        "category": "M50"
+      },
+      {
+        "name": "SL",
+        "category": "M60"
+      }
+    ]
 
-    // Get the data
-    d3.json("data.json", function(error, data) {
+    // ****************** - START PIE Chart - ****************
 
-      // ****************** - START PIE Chart - ****************
+    var width = 300,
+      height = 300, // Think back to 5th grade. Radius is 1/2 of the diameter. What is the limiting factor on the diameter? Width or height, whichever is smaller
+      radius = Math.min(width, height) / 2;
 
-      // Generate an array object on categories as a category
-      var category_count = d3.nest()
-        .key(function(d) {
-          return d.category;
-        })
-        .rollup(function(leaves) {
-          return leaves.length;
-        })
-        .entries(data);
+    var color = ["#2C93E8", "#838690", "#F56C4E", "#A60F2B", "#648C85", "#B3F2C9", "#528C18", "#C3F25C"];
 
-      var category_arcs = d3.pie()
-        .value(function(d) {
-          return d.value;
-        })
-        (category_count);
+    // Generate an array object on categories as a category
+    var category_count = d3.nest()
+      .key(function(d) {
+        return d.category;
+      })
+      .rollup(function(leaves) {
+        return leaves.length;
+      })
+      .entries(data);
 
-      var data = [{
-          "name": "RT",
-          "category": "M50"
-        },
-        {
-          "name": "K M",
-          "category": "M40"
-        },
-        {
-          "name": "SD",
-          "category": "M60"
-        },
-        {
-          "name": "DK",
-          "category": "M50"
-        },
-        {
-          "name": "BD",
-          "category": "M40"
-        },
-        {
-          "name": "KC",
-          "category": "M40"
-        },
-        {
-          "name": "PM",
-          "category": "M40"
-        },
-        {
-          "name": "NR",
-          "category": "M50"
-        },
-        {
-          "name": "LM",
-          "category": "M50"
-        },
-        {
-          "name": "SL",
-          "category": "M60"
-        }
-      ]
+    var category_arcs = d3.pie()
+      .value(function(d) {
+        return d.value;
+      })
+      (category_count);
 
-      var width = 300,
-        height = 300, // Think back to 5th grade. Radius is 1/2 of the diameter. What is the limiting factor on the diameter? Width or height, whichever is smaller
-        radius = Math.min(width, height) / 2;
+    var pie = d3.pie()
+      .value(function(d) {
+        return d.category;
+      })(category_arcs);
 
-      var color = ["#2C93E8", "#838690", "#F56C4E", "#A60F2B", "#648C85", "#B3F2C9", "#528C18", "#C3F25C"];
+    var arc = d3.arc()
+      .outerRadius(radius - 10)
+      .innerRadius(0);
 
-      // Generate an array object on categories as a category
-      var category_count = d3.nest()
-        .key(function(d) {
-          return d.category;
-        })
-        .rollup(function(leaves) {
-          return leaves.length;
-        })
-        .entries(data);
+    var labelArc = d3.arc()
+      .outerRadius(radius - 40)
+      .innerRadius(radius - 40);
 
-      var category_arcs = d3.pie()
-        .value(function(d) {
-          return d.value;
-        })
-        (category_count);
+    var svg = d3.select("#pie")
+      .append("svg")
+      .attr("width", width)
+      .attr("height", height)
+      .append("g")
+      .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")"); // Moving the center point. 1/2 the width and 1/2 the height
 
-      var pie = d3.pie()
-        .value(function(d) {
-          return d.category;
-        })(category_arcs);
+    var g = svg.selectAll("arc")
+      .data(category_arcs)
+      .enter().append("g")
+      .attr("class", "arc");
 
-      var arc = d3.arc()
-        .outerRadius(radius - 10)
-        .innerRadius(0);
+    // category_arcs.forEach(function(element) {
+    //   console.log(element.data.key);
+    // });
 
-      var labelArc = d3.arc()
-        .outerRadius(radius - 40)
-        .innerRadius(radius - 40);
+    g.append("path")
+      .attr("d", arc)
+      .style("fill", function(d, i) {
+        return color[i];
+      });
 
-      var svg = d3.select("#pie")
-        .append("svg")
-        .attr("width", width)
-        .attr("height", height)
-        .append("g")
-        .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")"); // Moving the center point. 1/2 the width and 1/2 the height
+    g.append("text")
+      .attr("transform", function(d) {
+        return "translate(" + labelArc.centroid(d) + ")";
+      })
+      .text(function(d) {
+        return d.data.key;
+      })
+      .style("fill", "black");
 
-      var g = svg.selectAll("arc")
-        .data(category_arcs)
-        .enter().append("g")
-        .attr("class", "arc");
-
-      // category_arcs.forEach(function(element) {
-      //   console.log(element.data.key);
-      // });
-
-      g.append("path")
-        .attr("d", arc)
-        .style("fill", function(d, i) {
-          return color[i];
-        });
-
-      g.append("text")
-        .attr("transform", function(d) {
-          return "translate(" + labelArc.centroid(d) + ")";
-        })
-        .text(function(d) {
-          return d.data.key;
-        })
-        .style("fill", "black");
-
-      // ****************** - END PIE Chart - ****************
-
-    });
+    // ****************** - END PIE Chart - ****************
   </script>
 </body>
