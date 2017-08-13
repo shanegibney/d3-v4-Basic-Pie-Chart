@@ -1,0 +1,111 @@
+[{
+    "raceplace": 1,
+    "name": "RT",
+    "club": "CLUB B",
+    "clocktime": "21:33",
+    "handicap": "02:30",
+    "racetime": "19:03",
+    "category": "M50",
+    "timeplace": 34,
+    "points": 10
+  },
+  {
+    "raceplace": 2,
+    "name": "K M",
+    "club": "CLUB A",
+    "clocktime": "22:13",
+    "handicap": "00:45",
+    "racetime": "21:28",
+    "category": "M40",
+    "timeplace": 36,
+    "points": 8
+  },
+  {
+    "raceplace": 3,
+    "name": "SD",
+    "club": "CLUB C",
+    "clocktime": "22:15",
+    "handicap": "01:45",
+    "racetime": "20:30",
+    "category": "M60",
+    "timeplace": 35,
+    "points": 8
+  },
+  {
+    "raceplace": 4,
+    "name": "DK",
+    "club": "CLUB A",
+    "clocktime": "22:20",
+    "handicap": "02:45",
+    "racetime": "19:35",
+    "category": "M50",
+    "timeplace": 40,
+    "points": 3
+  },
+  {
+    "raceplace": 5,
+    "name": "BD",
+    "club": "CLUB A",
+    "clocktime": "22:21",
+    "handicap": "02:15",
+    "racetime": "20:06",
+    "category": "M40",
+    "timeplace": 44,
+    "points": 4
+  },
+  {
+    "raceplace": 6,
+    "name": "KC",
+    "club": "CLUB C",
+    "clocktime": "22:21",
+    "handicap": "02:00",
+    "racetime": "20:21",
+    "category": "M40",
+    "timeplace": 38,
+    "points": 8
+  },
+  {
+    "raceplace": 7,
+    "name": "PM",
+    "club": "CLUB A",
+    "clocktime": "22:22",
+    "handicap": "00:45",
+    "racetime": "21:37",
+    "category": "M40",
+    "timeplace": 37,
+    "points": 4
+  },
+  {
+    "raceplace": 8,
+    "name": "NR",
+    "club": "CLUB B",
+    "clocktime": "22:23",
+    "handicap": "01:45",
+    "racetime": "20:38",
+    "category": "M50",
+    "timeplace": 42,
+    "points": 6
+  },
+  {
+    "raceplace": 9,
+    "name": "LM",
+    "club": "CLUB A",
+    "clocktime": "22:25",
+    "handicap": "02:15",
+    "racetime": "20:10",
+    "category": "M50",
+    "timeplace": 39,
+    "points": 3
+  },
+  {
+    "raceplace": 10,
+    "name": "SL",
+    "club": "CLUB D",
+    "clocktime": "22:26",
+    "handicap": "00:15",
+    "racetime": "22:11",
+    "category": "M60",
+    "timeplace": 41,
+    "points": 3
+  }
+]
