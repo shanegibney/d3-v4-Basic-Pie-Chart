@@ -2,7 +2,7 @@
 
 A simple pie chart
 
-Count number of each category tat exist.
+Count number of each category that exist.
 
 ```
 var category_count = d3.nest()
