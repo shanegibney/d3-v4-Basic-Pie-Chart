@@ -1,8 +1,10 @@
 # D3 v4 Basic Pie Chart
 
+Adapted from tutorial on [http://www.cagrimmett.com/](http://www.cagrimmett.com/til/2016/08/19/d3-pie-chart.html)
+
 A simple pie chart
 
-Count number of each category that exist.
+Count number of each category that exist. 
 
 ```
 var category_count = d3.nest()
