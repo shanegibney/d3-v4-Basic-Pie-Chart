@@ -4,55 +4,73 @@
 <body>
   <div id="pie">
   </div>
+  <div id="pie2">
+  </div>
+  <h3>JSON data:</h3>
+  <div>
+    <pre id="json"></pre>
+  </div>
   <!-- load the d3.js library -->
   <script src="https://d3js.org/d3.v4.min.js"></script>
   <script>
     var data = [{
         "name": "RT",
-        "category": "M50"
+        "category": "M50",
+        "value": 1
       },
       {
         "name": "K M",
-        "category": "M40"
+        "category": "M50",
+        "value": 2
       },
       {
         "name": "SD",
-        "category": "M60"
+        "category": "M60",
+        "value": 3
       },
       {
         "name": "DK",
-        "category": "M50"
+        "category": "M50",
+        "value": 4
       },
       {
         "name": "BD",
-        "category": "M40"
+        "category": "M40",
+        "value": 5
       },
       {
         "name": "KC",
-        "category": "M40"
+        "category": "M40",
+        "value": 6
       },
       {
         "name": "PM",
-        "category": "M40"
+        "category": "M40",
+        "value": 7
       },
       {
         "name": "NR",
-        "category": "M50"
+        "category": "M50",
+        "value": 8
       },
       {
         "name": "LM",
-        "category": "M50"
+        "category": "M50",
+        "value": 9
       },
       {
         "name": "SL",
-        "category": "M60"
+        "category": "M60",
+        "value": 1
       }
     ]
 
+    // To display json in html page
+    document.getElementById("json").innerHTML = JSON.stringify(data, undefined, 2);
     // ****************** - START PIE Chart - ****************
 
     var width = 300,
-      height = 300, // Think back to 5th grade. Radius is 1/2 of the diameter. What is the limiting factor on the diameter? Width or height, whichever is smaller
+      height = 300,
       radius = Math.min(width, height) / 2;
 
     var color = ["#2C93E8", "#838690", "#F56C4E", "#A60F2B", "#648C85", "#B3F2C9", "#528C18", "#C3F25C"];
@@ -67,11 +85,21 @@
       })
       .entries(data);
 
+    // console.log("category_count");
+    // category_count.forEach(function(element) {
+    //   console.log(element)
+    // });
+
     var category_arcs = d3.pie()
       .value(function(d) {
         return d.value;
       })
       (category_count);
+
+    // console.log("category_arcs");
+    // category_arcs.forEach(function(element) {
+    //   console.log(element);
+    // })
 
     var pie = d3.pie()
       .value(function(d) {
@@ -83,8 +111,8 @@
       .innerRadius(0);
 
     var labelArc = d3.arc()
-      .outerRadius(radius - 40)
-      .innerRadius(radius - 40);
+      .outerRadius(radius - 10)
+      .innerRadius(radius - 150);
 
     var svg = d3.select("#pie")
       .append("svg")
@@ -98,10 +126,6 @@
       .enter().append("g")
       .attr("class", "arc");
 
-    // category_arcs.forEach(function(element) {
-    //   console.log(element.data.key);
-    // });
-
     g.append("path")
       .attr("d", arc)
       .style("fill", function(d, i) {
@@ -113,10 +137,86 @@
         return "translate(" + labelArc.centroid(d) + ")";
       })
       .text(function(d) {
-        return d.data.key;
+        return d.data.key + " = " + d.value;
       })
       .style("fill", "black");
 
+    g.append("text")
+      .attr("transform", "translate(" + (0 - (radius / 2)) + "," + (0 - radius + 10) + ")")
+      .text("Count occurences of each category")
+      .style("fill", "black");
+
     // ****************** - END PIE Chart - ****************
+
+    // ****************** - START SECOND PIE Chart - *******
+
+    var category_sum = d3.nest().key(function(d) {
+        return d.category;
+      })
+      .rollup(function(leaves) {
+        return d3.sum(leaves, function(d) {
+          return d.value;
+        });
+      }).entries(data)
+      .map(function(d) {
+        return {
+          Category: d.key,
+          totalValue: d.value
+        };
+      });
+
+    var category_sum_arcs = d3.pie()
+      .value(function(d) {
+        return d.totalValue;
+      })
+      (category_sum);
+
+    var arcSum = d3.arc()
+      .outerRadius(radius - 10)
+      .innerRadius(0);
+
+    var labelArc = d3.arc()
+      .outerRadius(radius - 40)
+      .innerRadius(radius - 100);
+
+    var svg = d3.select("#pie")
+      .append("svg")
+      .attr("width", width)
+      .attr("height", height)
+      .append("g")
+      .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")"); // Moving the center point. 1/2 the width and 1/2 the height
+
+    var g = svg.selectAll("arc")
+      .data(category_sum_arcs)
+      .enter().append("g")
+      .attr("class", "arc");
+
+    g.append("path")
+      .attr("d", arcSum)
+      .style("fill", function(d, i) {
+        return color[i];
+      });
+
+    // console.log("category_sum_arcs");
+    // category_sum_arcs.forEach(function(element) {
+    //   console.log(element);
+    // })
+
+    g.append("text")
+      .attr("transform", function(d) {
+        return "translate(" + labelArc.centroid(d) + ")";
+      })
+      .text(function(d) {
+        // console.log(d.key);
+        return d.data.Category + " = " + d.value;
+      })
+      .style("fill", "black");
+
+    g.append("text")
+      .attr("transform", "translate(" + (0 - (radius / 2)) + "," + (0 - radius + 10) + ")")
+      .text("Sum value of each category")
+      .style("fill", "black");
+
+    // ****************** - END SECOND PIE Chart - *******
   </script>
 </body>
