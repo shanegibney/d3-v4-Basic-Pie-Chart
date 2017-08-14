@@ -2,7 +2,9 @@
 
 Adapted from tutorial on [http://www.cagrimmett.com/](http://www.cagrimmett.com/til/2016/08/19/d3-pie-chart.html)
 
-A simple pie chart
+A simple pie chart.
+
+gh-pages [demo](https://shanegibney.github.io/d3-v4-Basic-Pie-Chart/)
 
 * The first Pie Chart counts the number of each category that exist.
 
@@ -47,6 +49,5 @@ var category_sum_arcs = d3.pie()
   })
   (category_sum);
 ```
-gh-pages [demo](https://shanegibney.github.io/d3-v4-Basic-Pie-Chart/)
 
 <img width="514" alt="screen shot 2017-08-14 at 19 30 01" src="https://user-images.githubusercontent.com/17167992/29285648-0dc3d752-8127-11e7-9015-e622422855a3.png">
