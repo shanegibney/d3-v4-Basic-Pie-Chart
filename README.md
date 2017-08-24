@@ -50,4 +50,4 @@ var category_sum_arcs = d3.pie()
   (category_sum);
 ```
 
-<img width="514" alt="screen shot 2017-08-14 at 19 30 01" src="https://user-images.githubusercontent.com/17167992/29285648-0dc3d752-8127-11e7-9015-e622422855a3.png">
+<img width="521" alt="screen shot 2017-08-24 at 23 20 22" src="https://user-images.githubusercontent.com/17167992/29691429-e783420e-8922-11e7-97c5-510196749766.png">
