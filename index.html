@@ -4,8 +4,6 @@
 <body>
   <div id="pie">
   </div>
-  <div id="pie2">
-  </div>
   <h3>JSON data:</h3>
   <div>
     <pre id="json"></pre>
@@ -69,9 +67,15 @@
     document.getElementById("json").innerHTML = JSON.stringify(data, undefined, 2);
     // ****************** - START PIE Chart - ****************
 
-    var width = 300,
-      height = 300,
-      radius = Math.min(width, height) / 2;
+    var margin = {
+        top: 20,
+        right: 20,
+        bottom: 20,
+        left: 20
+      },
+      radius = 100,
+      width = margin.left + margin.right + (2 * radius),
+      height = margin.top + margin.bottom + (2 * radius);
 
     var color = ["#2C93E8", "#838690", "#F56C4E", "#A60F2B", "#648C85", "#B3F2C9", "#528C18", "#C3F25C"];
 
@@ -112,14 +116,14 @@
 
     var labelArc = d3.arc()
       .outerRadius(radius - 10)
-      .innerRadius(radius - 150);
+      .innerRadius(radius - 100);
 
     var svg = d3.select("#pie")
       .append("svg")
       .attr("width", width)
       .attr("height", height)
       .append("g")
-      .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")"); // Moving the center point. 1/2 the width and 1/2 the height
+      .attr("transform", "translate(" + (margin.left + radius) + "," + (margin.top + radius) + ")"); //center of pie
 
     var g = svg.selectAll("arc")
       .data(category_arcs)
@@ -139,11 +143,14 @@
       .text(function(d) {
         return d.data.key + " = " + d.value;
       })
-      .style("fill", "black");
+      .style("text-anchor", "middle")
+      .style("font-size", "10px")
+      .style("fill", "white");
 
-    g.append("text")
-      .attr("transform", "translate(" + (0 - (radius / 2)) + "," + (0 - radius + 10) + ")")
+    svg.append("text")
+      .attr("transform", "translate(0," + (0 - radius) + ")")
       .text("Count occurences of each category")
+      .style("text-anchor", "middle")
       .style("fill", "black");
 
     // ****************** - END PIE Chart - ****************
@@ -177,14 +184,14 @@
 
     var labelArc = d3.arc()
       .outerRadius(radius - 40)
-      .innerRadius(radius - 100);
+      .innerRadius(radius - 50);
 
     var svg = d3.select("#pie")
       .append("svg")
       .attr("width", width)
       .attr("height", height)
       .append("g")
-      .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")"); // Moving the center point. 1/2 the width and 1/2 the height
+      .attr("transform", "translate(" + (margin.left + radius) + "," + (margin.top + radius) + ")"); // Moving the center point. 1/2 the width and 1/2 the height
 
     var g = svg.selectAll("arc")
       .data(category_sum_arcs)
@@ -210,10 +217,13 @@
         // console.log(d.key);
         return d.data.Category + " = " + d.value;
       })
-      .style("fill", "black");
+      .style("text-anchor", "middle")
+      .style("font-size", "10px")
+      .style("fill", "white");
 
-    g.append("text")
-      .attr("transform", "translate(" + (0 - (radius / 2)) + "," + (0 - radius + 10) + ")")
+    svg.append("text")
+      .attr("transform", "translate(0," + (0 - radius) + ")")
+      .style("text-anchor", "middle")
       .text("Sum value of each category")
       .style("fill", "black");
 
