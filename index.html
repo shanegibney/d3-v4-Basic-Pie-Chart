@@ -2,11 +2,28 @@
 <meta charset="utf-8">
 
 <body>
-  <div id="pie">
-  </div>
-  <h3>JSON data:</h3>
+  <style>
+    div {
+      display: inline-block;
+      vertical-align: top;
+    }
+    /*#pie {
+      border: 2px solid lightgray;
+      border-radius: 15px;
+    }*/
+
+    #json {
+      max-height: 600px;
+      width: 250px;
+      overflow: scroll;
+      border: 2px solid gray;
+      border-radius: 15px;
+    }
+  </style>
   <div>
     <pre id="json"></pre>
+  </div>
+  <div id="pie">
   </div>
   <!-- load the d3.js library -->
   <script src="https://d3js.org/d3.v4.min.js"></script>
@@ -64,7 +81,7 @@
     ]
 
     // To display json in html page
-    document.getElementById("json").innerHTML = JSON.stringify(data, undefined, 2);
+    document.getElementById("json").innerHTML = "<pre>" + JSON.stringify(data, null, 4) + "</pre>";
     // ****************** - START PIE Chart - ****************
 
     var margin = {
@@ -73,7 +90,7 @@
         bottom: 20,
         left: 20
       },
-      radius = 100,
+      radius = 200,
       width = margin.left + margin.right + (2 * radius),
       height = margin.top + margin.bottom + (2 * radius);
 
@@ -95,6 +112,7 @@
     // });
 
     var category_arcs = d3.pie()
+      .padAngle(.02)
       .value(function(d) {
         return d.value;
       })
@@ -112,7 +130,7 @@
 
     var arc = d3.arc()
       .outerRadius(radius - 10)
-      .innerRadius(0);
+      .innerRadius(radius / 2);
 
     var labelArc = d3.arc()
       .outerRadius(radius - 10)
@@ -144,7 +162,7 @@
         return d.data.key + " = " + d.value;
       })
       .style("text-anchor", "middle")
-      .style("font-size", "10px")
+      .style("font-size", "15px")
       .style("fill", "white");
 
     svg.append("text")
@@ -173,6 +191,7 @@
       });
 
     var category_sum_arcs = d3.pie()
+      .padAngle(.02)
       .value(function(d) {
         return d.totalValue;
       })
@@ -180,11 +199,11 @@
 
     var arcSum = d3.arc()
       .outerRadius(radius - 10)
-      .innerRadius(0);
+      .innerRadius(radius / 2);
 
     var labelArc = d3.arc()
-      .outerRadius(radius - 40)
-      .innerRadius(radius - 50);
+      .outerRadius(radius - 10)
+      .innerRadius(radius - 100);
 
     var svg = d3.select("#pie")
       .append("svg")
@@ -218,7 +237,7 @@
         return d.data.Category + " = " + d.value;
       })
       .style("text-anchor", "middle")
-      .style("font-size", "10px")
+      .style("font-size", "15px")
       .style("fill", "white");
 
     svg.append("text")
